@@ -1,5 +1,10 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
 # Exploration of Prosper Loan Dataset
-_updated 07 May 2016_
+_updated 08 May 2016_
 
 This project explores the Prosper loan dataset, which contains data on 113,937 loans across 81 variables, ranging from interest rate, to loan amount, to borrower's income and employment status, and so on. My exploration focuses in particular on the interest rate applied to the loan. The variable dictionary can be found [here] (INSERT LINK TO CSV IN SAME FOLDER).
 
