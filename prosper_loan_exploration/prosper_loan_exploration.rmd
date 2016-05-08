@@ -6,9 +6,9 @@ output:
 # Exploration of Prosper Loan Dataset
 _updated 08 May 2016_
 
-This project explores the Prosper loan dataset, which contains data on 113,937 loans across 81 variables, ranging from interest rate, to loan amount, to borrower's income and employment status, and so on. My exploration focuses in particular on the interest rate applied to the loan. The variable dictionary can be found [here] (INSERT LINK TO CSV IN SAME FOLDER).
+This project explores the Prosper loan dataset, which contains data on 113,937 loans across 81 variables, ranging from interest rate, to loan amount, to borrower's income and employment status, and so on. My exploration focuses in particular on the interest rate applied to the loan. The variable dictionary can be found [here] ('https://github.com/jasonstan/sandbox/blob/master/prosper_loan_exploration/prosper_data_dictionary.csv').
 
-### Visual exploration
+### Visual exploration of dataset
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, messages=FALSE}
 # load necessary packages
@@ -219,7 +219,7 @@ ggplot(aes(x=DebtToIncomeRatio), data=loans) +
   scale_x_log10()
 ```
 
-And now let's look at it with normal scale on teh X-axis but with that axis bounded so that the plot excludes outliers.
+And now let's look at it with normal scale on the X-axis but with that axis bounded so that the plot excludes outliers.
 
 ```{r echo=FALSE, warning=FALSE, messages=FALSE}
 
@@ -285,18 +285,21 @@ Interestingly, delinquent and defaulted loans have a lower mean and median loan 
 
 To dig a little further, let's look at the distribution of loan amount over time.
 
-```{r echo=FALSE, warning=FALSE, messages=FALSE}
+```{r echo=FALSE, warning=FALSE, messages=FALSE, Plot_Two}
 
-# loan amounts over time
-ggplot(aes(x=ListingCreationDate_quarter, y=LoanOriginalAmount), 
+# Loan amount over time
+ggplot(aes(x=ListingCreationDate_month, y=LoanOriginalAmount), 
        data=loans) +
-  geom_jitter(alpha=.1) +
+  geom_jitter(alpha=.025) +
   stat_summary(fun.y=mean, colour="red", geom="line", 
-               size=3,show.legend=FALSE) +
-  scale_x_date()
+               size=2, show.legend=FALSE) +
+  scale_x_date() +
+  ggtitle('Loan Amount Given Over Time (USD$)') +
+  xlab('Month of Listing Creation') +
+  ylab('Loan Amount')
 ```
 
-We can see several interesting things here. First, loans appear to have been capped at $25,000 before 2013, and then capped at $35,000 after that. At the same time, the minimum loan amount also rose slightly over time. Second, we see the halt in lending activity ther followed the financial crisis very clearly here. Third, as suspected, the average loan amount rose over time, with the most recent period have the highest average loan amount. The trend was not linear, as there was a local maxima in average loan amount in 2007 and then a collapse in this average during and immedately after the crisis, after which it slowly but steadily recovered, surpassing it's previous average by quite a bit.
+Here we see clearly the virtual halt to all lending that occurred in late 2008 and early 2009, in the wake of the global financial crisis. We also see that, in period following the crisis, though lending re-commenced, loans tended to be smaller than at virutally any other time covered by the data set. Over time, as economic conditions improved, and as both borrowers and lenders became more confident in their economic prospects, average loan amount increased at a steady pace. This plot also shows that the lending insitution stopped granting loans below approximately $2,500 in 2011, and began offering loans up to a new ceiling (approximately $35,000) in early 2013.
 
 Let's examine the relationship between loan amount and monthly income.
 
@@ -540,21 +543,24 @@ Let's examine borrower rate over time, broken out by Prosper Score.
 
 # Borrower rate over time broken out by Prosper Score
 ggplot(aes(x=ListingCreationDate_month, y=BorrowerRate), 
-       data=subset(loans, !is.na(loans$ProsperScore))) +
+       data=subset(loans, (!is.na(loans$ProsperScore)))) +
   geom_jitter(alpha=.01) +
   scale_x_date() +
   stat_smooth(color='green') +
   scale_y_continuous(lim=c(0, quantile(loans$BorrowerRate, .99))) +
+  ggtitle('Borrower Rate Over Time Faceted by Prosper Score') +
+  xlab('Month of Listing Creation') +
+  ylab('Borrower Rate') +
   facet_wrap(~ ProsperScore)
 ```
 
-Several interesting findings here. First, Average borrower rate has declined over time for most Prosper Score levels, though not at the very top scores, as these borrowers consistently received low interest rates on their loans. 
+Several interesting findings here. First, average borrower rate has declined over time for most Prosper Score levels, though not at the very top scores, as these borrowers consistently received low interest rates on their loans. 
 
 Second, the decline in average borrower rate is steepest for mid-range Prosper Score levels (4-7).
 
 Third, we see a substantial rise in loans given once borrower rates come down substantially. We would need to investigate further to confirm this hypothesis, but looking at the plot here it appears that the dramatic rise in number of loans in 2013-2014 occurred principally among borrowers in the mid-range Prosper Score levels, where average interest rates had declined precipitously in the preceding period. In this sense, we see an 'easy money' period arise, and significant borrower demand respond to this climate by taking out loans.
 
-Let's look at borrower rate by debt-to-income ration, colored by homeownership status. This might prove interesting because homeownership is a special kind of debt in the eyes of lending institutions -- it is something banks can go after if a borrower defaults on a loan, whereas many other kinds of debt are unreachable by banks upon default.
+Let's look at borrower rate by debt-to-income ratio, colored by homeownership status. This might prove interesting because homeownership is a special kind of debt in the eyes of lending institutions -- it is something banks can go after if a borrower defaults on a loan, whereas many other kinds of debt are unreachable by banks upon default.
 
 ```{r echo=FALSE, warning=FALSE, messages=FALSE}
 
@@ -570,8 +576,7 @@ ggplot(aes(x=DebtToIncomeRatio, y=BorrowerRate, color=IsBorrowerHomeowner),
   ggtitle('Borrower Rate vs Debt-to-Income Ratio') +
   xlab('Debt-to-Income Ratio') +
   ylab('Borrower Rate') +
-  scale_colour_discrete() +
-  scale_fill_continuous(guide = guide_legend()) +
+  scale_color_discrete(name="Borrower is Homeowner?") +
   theme(legend.position="bottom")
 ```
 
@@ -596,64 +601,3 @@ ggplot(aes(x=EmploymentStatusDuration, y=BorrowerRate,
 ```
 
 What this plot tells us is that employment status duration on its own is not very useful in explaining variation in borrower rate. For each Prosper Score level, average borrower rate stays more or less constant over the range of employment status duration.
-
-### Summary
-
-```{r echo=FALSE, warning=FALSE, messages=FALSE, Plot_One}
-
-# Borrower rate over time broken out by Prosper Score
-ggplot(aes(x=ListingCreationDate_month, y=BorrowerRate), 
-       data=subset(loans, (!is.na(loans$ProsperScore)))) +
-  geom_jitter(alpha=.01) +
-  scale_x_date() +
-  stat_smooth(color='green') +
-  scale_y_continuous(lim=c(0, quantile(loans$BorrowerRate, .99))) +
-  ggtitle('Borrower Rate Over Time Faceted by Prosper Score') +
-  xlab('Month of Listing Creation') +
-  ylab('Borrower Rate') +
-  facet_wrap(~ ProsperScore)
-```
-
-The above plot shows the interest rate applied to loans over time from 2009 onwards, broken out by borrower Prosper Score. We see that, following the 2008-2009 global financial crisis, very creditworthy borrowers (those with Prosper Score of 9-10) received loans with very low interest rates, depsite the poor economic climate. This low average interest rate did not decline by much over time, despite the improvement in economic conditions, a fact that demonstrates the strong trust the lending instition had in these borrowers even in the worst of times. By contrast, borrowers with lower Prosper Scores did receive higher average interest rates in the immediate wake of the financial crisis than they did several years later, once economic conditions had gotten better.
-
-```{r echo=FALSE, warning=FALSE, messages=FALSE, Plot_Two}
-
-# Loan amount over time
-ggplot(aes(x=ListingCreationDate_month, y=LoanOriginalAmount), 
-       data=loans) +
-  geom_jitter(alpha=.025) +
-  stat_summary(fun.y=mean, colour="red", geom="line", 
-               size=2, show.legend=FALSE) +
-  scale_x_date() +
-  ggtitle('Loan Amount Given Over Time (USD$') +
-  xlab('Month of Listing Creation') +
-  ylab('Loan Amount')
-```
-
-The above plot shows loan amount given over time, with each point representing a single loan. The red line plots the monthly mean over time. Here we see clearly the virtual halt to all lending that occurred in late 2008 and early 2009, in the wake of the global financial crisis. We also see that, in period following the crisis, though lending re-commenced, loans tended to be smaller than at virutally any other time covered by the data set. Over time, as economic conditions improved, and as both borrowers and lenders became more confident in their economic prospects, average loan amount increased at a steady pace. This plot also shows that the lending insitution stopped granting loans below approximately $2,500 in 2011, and began offering loans up to a new ceiling (approximately $35,000) in early 2013.
-
-```{r echo=FALSE, warning=FALSE, messages=FALSE, Plot_Three}
-
-# Borrower rate by debt-to-income ratio, colored by homeownership status
-ggplot(aes(x=DebtToIncomeRatio, y=BorrowerRate, color=IsBorrowerHomeowner), 
-       data=loans) + 
-  geom_jitter(alpha=.035) +
-  scale_x_continuous(lim=c(0, quantile(loans$DebtToIncomeRatio, .99,
-                                       na.rm=TRUE))) +
-  scale_y_continuous(lim=c(quantile(loans$BorrowerRate, .01), 
-                           quantile(loans$BorrowerRate, .99))) +
-  geom_smooth() +
-  ggtitle('Borrower Rate vs Debt-to-Income Ratio') +
-  xlab('Debt-to-Income Ratio') +
-  ylab('Borrower Rate') +
-  scale_color_discrete(name="Borrower is Homeowner?") +
-  theme(legend.position="bottom")
-```
-
-The above plot shows borrower rate by debt-to-income ratio, borken out by homeownership status. What we see here is that borrower rate tends to be higher for most debt-to-income levels where borrower is not a homeowner than is the case where borrower is a homeowner. However, at very high debt-to-income levels homeownership does not appear to make a difference in determining borrower rate.
-
------
-
-### Next steps
-
-Looking forward, one future project worth pursuing with this dataset is to reverse engineer the lending institution's algorithm for setting a borrower's Prosper Score. The Prosper Score is a credit rating of sorts, which the lending institution uses as an index to guage creditworthiness of borrower. This index likely draws on factors such as income, debt, past delinquencies, employment status, employment status duration, wealth, and so on.

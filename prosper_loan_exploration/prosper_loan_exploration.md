@@ -1,9 +1,9 @@
 # Exploration of Prosper Loan Dataset
 _updated 08 May 2016_
 
-This project explores the Prosper loan dataset, which contains data on 113,937 loans across 81 variables, ranging from interest rate, to loan amount, to borrower's income and employment status, and so on. My exploration focuses in particular on the interest rate applied to the loan. The variable dictionary can be found [here] (INSERT LINK TO CSV IN SAME FOLDER).
+This project explores the Prosper loan dataset, which contains data on 113,937 loans across 81 variables, ranging from interest rate, to loan amount, to borrower's income and employment status, and so on. My exploration focuses in particular on the interest rate applied to the loan. The variable dictionary can be found [here] ('https://github.com/jasonstan/sandbox/blob/master/prosper_loan_exploration/prosper_data_dictionary.csv').
 
-### Visual exploration
+### Visual exploration of dataset
 
 
 
@@ -112,7 +112,7 @@ Again the distribution is hard to see. Let's transform to a log10 scale on the X
 
 ![](prosper_loan_exploration_files/figure-html/unnamed-chunk-17-1.png)
 
-And now let's look at it with normal scale on teh X-axis but with that axis bounded so that the plot excludes outliers.
+And now let's look at it with normal scale on the X-axis but with that axis bounded so that the plot excludes outliers.
 
 ![](prosper_loan_exploration_files/figure-html/unnamed-chunk-18-1.png)
 
@@ -144,13 +144,13 @@ Interestingly, delinquent and defaulted loans have a lower mean and median loan 
 
 To dig a little further, let's look at the distribution of loan amount over time.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-23-1.png)
+![](prosper_loan_exploration_files/figure-html/Plot_Two-1.png)
 
-We can see several interesting things here. First, loans appear to have been capped at $25,000 before 2013, and then capped at $35,000 after that. At the same time, the minimum loan amount also rose slightly over time. Second, we see the halt in lending activity ther followed the financial crisis very clearly here. Third, as suspected, the average loan amount rose over time, with the most recent period have the highest average loan amount. The trend was not linear, as there was a local maxima in average loan amount in 2007 and then a collapse in this average during and immedately after the crisis, after which it slowly but steadily recovered, surpassing it's previous average by quite a bit.
+Here we see clearly the virtual halt to all lending that occurred in late 2008 and early 2009, in the wake of the global financial crisis. We also see that, in period following the crisis, though lending re-commenced, loans tended to be smaller than at virutally any other time covered by the data set. Over time, as economic conditions improved, and as both borrowers and lenders became more confident in their economic prospects, average loan amount increased at a steady pace. This plot also shows that the lending insitution stopped granting loans below approximately $2,500 in 2011, and began offering loans up to a new ceiling (approximately $35,000) in early 2013.
 
 Let's examine the relationship between loan amount and monthly income.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-24-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-23-1.png)
 
 The general relationship here is not surprising - average loan amount grows as income rises, though only up to a point (approximately $12,000), at which point it plateaus. This likely reflects the fact that the lending institution sees higher income individuals as more capable of paying back larger loans, so is more willing to grant larger loans to these people.
 
@@ -158,67 +158,67 @@ The plot shows many cases of $0 monthly income. It's possible that these individ
 
 When we look at employment status duration for each of the important types employment statuses, do we gain insight into the variation in loan amount?
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-25-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-24-1.png)
 
 Loan amount begins higher and increases gradually for employed, full-time, and self-employed. Those in more precarious or lower income contexts (not employed, part-time employed, and retired) begin much lower and don't see the same kind of increase. Can also see that there are many fewer loans given to people with these more precarious loan statuses, and that loans given to these applicants almost always go to people who have been in this status for a short amount of time.
 
 Does occupation drive loan amount?
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-26-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-25-1.png)
 
 On average, small loans tend to go to students and large loans tend to go to judges, doctors, and others occupational groups that usually have high incomes and high social status. This trend is unsurprising.
 
 Let's look at Prosper Score to see how, if at all, it explains variation in loan amount.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-27-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-26-1.png)
 
 The relationship appears to be quite strong here. Borrowers with very low Prosper Scores tend to get small loans, and the variation in loan amount is very small. By contrast, borrowers with high Scores get much higher average loan amounts.
 
 What does the relationship between borrower rate and loan status look like?
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-28-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-27-1.png)
 
 Current and completed loans have lower average borrower rate than defaulted or delinquent loans. This might be driven by the fact that borrowers that the bank feels are more creditworthy are given lower interest rates and then these borrowers do actually turn out to be more creditworthy, staying current on their loans. This seems plausible. It will be interesting to overlay Prosper Score on this plot, as this is our best read on how creditworthy the lending institution felt the borrower when the loan was granted.
 
 To get a better sense of variation in borrower rate, let's look at how it has evolved over time.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-29-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-28-1.png)
 
 Here we see two important findings. First, a fairly dramatic dip in the average borrower rate from approximately late 2011 through to the end of the period covered by the data set. Second, we see what we have already seen in a separate plot above -- that the absolute number of loans given increased significantly in the last year or so of the dataset.
 
 To continue our exploration of borrower rate, let's examine it's relatinoship with borrower income.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-30-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-29-1.png)
 
 What we see here is that borrowers with higher monthly income tend to have lower borrower rates, though the relationship plateaus after approximately $10,000/month. This general relationship is not surprising.
 
 On a related point, we need to look at the importance of debt-to-income ratio in explaining variation in borrower rate, as a borrower's existing debt load likely impacts the lending institution's confidence in their capacity to take on and pay back new debt.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-31-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-30-1.png)
 
 The general relationship is positive -- as debt-to-income ratio rises, so does borrower rate. A debt-to-income ratio of zero or near zero seems to result in a particulalry low borrower rate, though there are also few borrowers in this situation. Overall, there is pretty dramatic variation here, so this variable only explains a small portion of variance in borrower rate.
 
 Does looking at occupation reveal anything surprising about borrower rate?
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-32-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-31-1.png)
 
 Here we see what we would expect to find -- that students and low-income occupations tend to receive higher interest rates, while liberal professionals, like doctors, judges, and other high income professions tend to receive lower interest rates.
 
 Now let's turn to the lending institution's metric of creditworthiness, the Prosper Score.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-33-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-32-1.png)
 
 As expected, here we see a very strong negative relationship, with average borrower rate declining at a hefty pace as Prosper Score increases. We will want to explore this relationship further below by layering in other variables.
 
 How, if at all, did Prosper Scores evolve over time since July 2009, when the lending institution started using this metric?
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-34-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-33-1.png)
 
 In the post-crisis period, during which Prosper Score has been used, we see a general decline in the average Prosper Score of borrowers, and the darkening of the plot as we move from left to right demonstrates the rising number of loans given out. In the early post-crisis period, we see the lending institution targeted only those borrowers with fairly high Prosper Scores, no doubt because it wanted to take on little risk in this shaky period. Over time, the lending institution became more confortable with riskier loans, accepting a rising number of borrowers with lower Prosper Scores.
 
 Let's begin by looking at the relationship between our three major variables of interest: borrower rate, loan amount, and Prosper Score.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-35-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-34-1.png)
 
 We see several interesting things here. 
 
@@ -230,54 +230,34 @@ Third, in the middle range of Prosper Scores, we see significantly more heterosc
 
 Let's turn to the relationship between loan amount and borrower income, broken out by Prosper Score.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-36-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-35-1.png)
 
 Here we see that the upward slope in average loan amount over the monthly income range grows more positive as Prosper Score rises. 
 
 We now turn to the evolution in average Prosper Score over time, faceted by employment status.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-37-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-36-1.png)
 
 Several interesting insights come out of this view. First we can see that the value 'employed' only apparently came into use in late 2010, prior to which 'full-time' seems to have been used to convey the same thing. Second, we see that the lending institution seems to increasingly penalize being 'not employed' over time -- in 2013, average Prosper Scores for borrowers not employed is much lower than it was in 2009. The same is true for 'self-employed' though the decline in average Score occurs earlier and more rapidly than for 'not employed'. By contrast, though few borrowers appear to fall into this cateogry, being 'part-time' employed appears to have meant a penalty early on, but that penalty was reversed in more recent years. It isn't straightforward why average Prosper Scores have moved in the directions they have for these groups.
 
 Let's examine borrower rate over time, broken out by Prosper Score.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-38-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-37-1.png)
 
-Several interesting findings here. First, Average borrower rate has declined over time for most Prosper Score levels, though not at the very top scores, as these borrowers consistently received low interest rates on their loans. 
+Several interesting findings here. First, average borrower rate has declined over time for most Prosper Score levels, though not at the very top scores, as these borrowers consistently received low interest rates on their loans. 
 
 Second, the decline in average borrower rate is steepest for mid-range Prosper Score levels (4-7).
 
 Third, we see a substantial rise in loans given once borrower rates come down substantially. We would need to investigate further to confirm this hypothesis, but looking at the plot here it appears that the dramatic rise in number of loans in 2013-2014 occurred principally among borrowers in the mid-range Prosper Score levels, where average interest rates had declined precipitously in the preceding period. In this sense, we see an 'easy money' period arise, and significant borrower demand respond to this climate by taking out loans.
 
-Let's look at borrower rate by debt-to-income ration, colored by homeownership status. This might prove interesting because homeownership is a special kind of debt in the eyes of lending institutions -- it is something banks can go after if a borrower defaults on a loan, whereas many other kinds of debt are unreachable by banks upon default.
+Let's look at borrower rate by debt-to-income ratio, colored by homeownership status. This might prove interesting because homeownership is a special kind of debt in the eyes of lending institutions -- it is something banks can go after if a borrower defaults on a loan, whereas many other kinds of debt are unreachable by banks upon default.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-39-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-38-1.png)
 
 As expected, we see that, holding debt-to-income ration constant, borrower rate is higher for borrowers that are not homeowners than for those that are homeowners, except at extreme debt-to-income levels, though here we have so few data points that the trend lines are pretty meaningless anyways.
 
 Finally, let's look at borrower rate by employment status duration, broken out by Prosper Score level.
 
-![](prosper_loan_exploration_files/figure-html/unnamed-chunk-40-1.png)
+![](prosper_loan_exploration_files/figure-html/unnamed-chunk-39-1.png)
 
 What this plot tells us is that employment status duration on its own is not very useful in explaining variation in borrower rate. For each Prosper Score level, average borrower rate stays more or less constant over the range of employment status duration.
-
-### Summary
-
-![](prosper_loan_exploration_files/figure-html/Plot_One-1.png)
-
-The above plot shows the interest rate applied to loans over time from 2009 onwards, broken out by borrower Prosper Score. We see that, following the 2008-2009 global financial crisis, very creditworthy borrowers (those with Prosper Score of 9-10) received loans with very low interest rates, depsite the poor economic climate. This low average interest rate did not decline by much over time, despite the improvement in economic conditions, a fact that demonstrates the strong trust the lending instition had in these borrowers even in the worst of times. By contrast, borrowers with lower Prosper Scores did receive higher average interest rates in the immediate wake of the financial crisis than they did several years later, once economic conditions had gotten better.
-
-![](prosper_loan_exploration_files/figure-html/Plot_Two-1.png)
-
-The above plot shows loan amount given over time, with each point representing a single loan. The red line plots the monthly mean over time. Here we see clearly the virtual halt to all lending that occurred in late 2008 and early 2009, in the wake of the global financial crisis. We also see that, in period following the crisis, though lending re-commenced, loans tended to be smaller than at virutally any other time covered by the data set. Over time, as economic conditions improved, and as both borrowers and lenders became more confident in their economic prospects, average loan amount increased at a steady pace. This plot also shows that the lending insitution stopped granting loans below approximately $2,500 in 2011, and began offering loans up to a new ceiling (approximately $35,000) in early 2013.
-
-![](prosper_loan_exploration_files/figure-html/Plot_Three-1.png)
-
-The above plot shows borrower rate by debt-to-income ratio, borken out by homeownership status. What we see here is that borrower rate tends to be higher for most debt-to-income levels where borrower is not a homeowner than is the case where borrower is a homeowner. However, at very high debt-to-income levels homeownership does not appear to make a difference in determining borrower rate.
-
------
-
-### Next steps
-
-Looking forward, one future project worth pursuing with this dataset is to reverse engineer the lending institution's algorithm for setting a borrower's Prosper Score. The Prosper Score is a credit rating of sorts, which the lending institution uses as an index to guage creditworthiness of borrower. This index likely draws on factors such as income, debt, past delinquencies, employment status, employment status duration, wealth, and so on.
